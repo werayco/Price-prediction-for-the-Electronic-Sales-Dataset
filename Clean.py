@@ -1,6 +1,7 @@
 import pandas as pd
 from datetime import datetime
 import os
+from utils import pickle_saver
 
 os.makedirs("PickleFiles", exist_ok=True)
 os.makedirs("CSVClean", exist_ok=True)
@@ -44,12 +45,6 @@ x_features["Shipping Type"] = (
 import pickle as pkl
 import os
 
-def pickle_saver(path: str, model_instance):
-    """
-    This function saves your model to a pickle file using the Pickle Library
-    """
-    with open(path, "wb") as path_alias:
-        pkl.dump(model_instance, path_alias)
 
 pickle_saver(path="PickleFiles/encoder_for_shipping_type.pkl", model_instance=encoder)
 
@@ -105,3 +100,5 @@ dataframe = pd.concat([feat, label], axis=1)
 dataframe.to_csv("CSVClean/Transformed_Data.csv", index=False)
 
 print(x_features.shape, y_label.shape)
+
+

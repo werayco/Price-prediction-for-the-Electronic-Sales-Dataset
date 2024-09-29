@@ -1,4 +1,9 @@
 import mlflow
+import dagshub
+uri = "https://dagshub.com/werayco/Price-prediction-for-the-Electronic-Sales-Dataset.mlflow"
+
+dagshub.init(repo_owner='werayco', repo_name='Price-prediction-for-the-Electronic-Sales-Dataset', mlflow=True)
+mlflow.set_tracking_uri(uri=uri)
 
 mlflow.create_experiment(
     "LightGBM",
