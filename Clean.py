@@ -1,12 +1,13 @@
 import pandas as pd
-from datetime import datetime
+import time
 import os
 from utils import pickle_saver
 
 os.makedirs("PickleFiles", exist_ok=True)
-os.makedirs("CSVClean", exist_ok=True)
+os.makedirs("CSVFiles", exist_ok=True)
 
-startime = datetime.now()
+
+startime = time.time()
 import time
 from sklearn.decomposition import PCA
 from utils import anomaly_iqr
@@ -17,7 +18,7 @@ features = ["Quantity", "Age", "Shipping Type", "Add-on Total", "Rating"]
 target = ["Total Price"]  # Numerical
 
 # Loading the data and dropping the nan records
-data = pd.read_csv(r"okayy.csv").dropna().drop_duplicates()
+data = pd.read_csv(r"CustomerData.csv").dropna().drop_duplicates()
 x_features = data[features]
 y_label = data[target]  # Total Price is now set to be the label
 
@@ -69,7 +70,7 @@ y_label = y_label.head(row)  #  same row with feature
 
 # saving this un-normalized data to csv for future referencing
 dataframe1 = pd.concat([x_features, y_label], axis=1).dropna()
-dataframe1.to_csv("Data.csv", index=False)
+dataframe1.to_csv("CSVFiles/Data(Un-normalized).csv", index=False)
 
 from sklearn.preprocessing import MinMaxScaler
 
@@ -97,8 +98,9 @@ label = pd.DataFrame(minmaxer_label, columns=["Total Price"])
 feat = pd.DataFrame(pca_reduct, columns=["PCA1", "PCA2", "PCA3"])
 
 dataframe = pd.concat([feat, label], axis=1)
-dataframe.to_csv("CSVClean/Transformed_Data.csv", index=False)
+dataframe.to_csv("CSVFiles/Transformed_Data.csv", index=False)
 
 print(x_features.shape, y_label.shape)
 
-
+endtime = time.time()
+print(f"The Process Took {endtime - startime} seconds")
